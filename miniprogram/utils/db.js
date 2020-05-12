@@ -35,4 +35,18 @@ module.exports = {
         return {}
       })
   },
+
+  fetchReviewOfOpenId: (id) => new Promise((reslove, reject) => {
+    wx.cloud.callFunction({
+      name: 'fetchReviewOfOpenid',
+      data: {
+        id
+      }
+    }).then(res => {
+      const { result } = res
+      console.log(result)
+      reslove({ result })
+    })
+  }),
+
 }

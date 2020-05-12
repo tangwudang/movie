@@ -42,10 +42,8 @@ Page({
       this.setData({
         userInfo
       })
-      console.log(this.data.userInfo)
     })
 
-    console.log(this.data.userInfo)
   },
 
   getRandomFilm: function () {
