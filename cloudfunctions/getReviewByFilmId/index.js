@@ -10,13 +10,11 @@ const db = cloud.database()
 // 云函数入口函数
 exports.main = async (event, context) => {
   const wxContext = cloud.getWXContext()
-  const openId = wxContext.OPENID
-  const id = event.id
+  const id = event.id //电影Id
 
-  const reviewRes = await db.collection('review').where({ openId, id }).get()
-  const data = reviewRes.data
+  const reviewREs = await db.collection("review").where({ id }).get()
 
-  //console.log(reviewRes)
+  const review = reviewREs.data
 
-  return { data }
+  return { review }
 }

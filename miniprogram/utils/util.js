@@ -1,3 +1,10 @@
+const cloudUrl = "https://6d6f-movie-t57mh-1302015442.tcb.qcloud.la/sounds"
+
+const formatNumber = n => {
+  n = n.toString()
+  return n[1] ? n : '0' + n
+}
+
 module.exports = {
   getUserInfo() {
     return new Promise((resolve, reject) => {
@@ -32,4 +39,22 @@ module.exports = {
       })
     })
   },
+
+  formatDate(date) {
+    const year = date.getFullYear()
+    const month = date.getMonth() + 1
+    const day = date.getDate()
+    const hour = date.getHours()
+    const minute = date.getMinutes()
+    const second = date.getSeconds()
+
+    return [year, month, day, hour, minute, second].map(formatNumber).join("")
+  },
+
+  midstr(str) {
+    var strnum = str.lastIndexOf('/')
+    var ministr = str.substr(strnum)
+    return cloudUrl + ministr
+  },
+  
 }

@@ -3,6 +3,10 @@
     "pages/home/home",
     "pages/film-list/film-list",
     "pages/film-details/film-details",
+    "pages/review-list/review-list",
+    "pages/review-add/review-add",
+    "pages/preview/preview",
+    "pages/review-detail/review-detail",
     "pages/mine/mine"
   ],
   "window": {

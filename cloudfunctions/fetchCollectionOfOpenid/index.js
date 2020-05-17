@@ -11,12 +11,10 @@ const db = cloud.database()
 exports.main = async (event, context) => {
   const wxContext = cloud.getWXContext()
   const openId = wxContext.OPENID
-  const id = event.id
 
-  const reviewRes = await db.collection('review').where({ openId, id }).get()
-  const data = reviewRes.data
+  const collectionRes = await db.collection('collection').where({ openId }).get()
 
-  //console.log(reviewRes)
+  const data = collectionRes.data
 
   return { data }
 }

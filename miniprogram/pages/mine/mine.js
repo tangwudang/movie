@@ -1,66 +1,148 @@
 // pages/mine/mine.js
+const util = require('../../utils/util.js')
+const db = require('../../utils/db.js')
+
 Page({
 
   /**
-   * 页面的初始数据
+   * Page initial data
    */
   data: {
-
+    tabs: ['发布的影评', '收藏的影评'],
+    curIndex: 0,
+    user: null,
+    release: [],
+    collection: [],
   },
 
-  /**
-   * 生命周期函数--监听页面加载
-   */
   onLoad: function (options) {
-
   },
 
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady: function () {
-
+  onShow() {
+    util.getUserInfo().then(userInfo => {
+      this.setData({
+        user: userInfo
+      })
+      wx.startPullDownRefresh()
+    })
   },
 
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow: function () {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide: function () {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload: function () {
-
-  },
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
   onPullDownRefresh: function () {
+    this.fetchCollectionOfOpenId()
+    this.fetchReviewByOpenId()
+  },
+
+  onGotUserInfo(event) {
+    this.setData({
+      user: event.detail.userInfo
+    })
+    this.fetchCollectionOfOpenId()
+    this.fetchReviewByOpenId()
+  },
+
+  fetchReviewByOpenId(){
+    db.getMyReviewByOpenId().then(({ result }) => {
+      wx.stopPullDownRefresh()
+      const { data } = result
+
+      this.setData({
+        release: data
+      })
+
+      if (this.data.curIndex == 0) {
+        this.setData({ review: this.data.release })
+      } else {
+        this.setData({ review: this.data.collection })
+      }
+
+    }).catch(error => {
+      wx.stopPullDownRefresh()
+    })
+  },
+
+  fetchCollectionOfOpenId() {
+    const user = this.data.user
+    console.log(user)
+    if (user) {
+      db.fetchCollectionOfOpenId().then(({ result }) => {
+        wx.stopPullDownRefresh()
+        const { data } = result
+
+        let collection = []
+        /**
+         * 区分发布影评与收藏影评
+         * 若userOpenId = OpenId, 则说明是用户发布的影评，反之是收藏的影评
+         */
+        data.map(it => {
+          if (it.userOpenId == it.openId) {
+            collection.push(it)
+          } 
+        })
+
+        this.setData({
+          collection
+        })
+
+        if (this.data.curIndex == 0) {
+          this.setData({ review: this.data.release })
+        } else {
+          this.setData({ review: this.data.collection })
+        }
+
+      }).catch(error => {
+        wx.stopPullDownRefresh()
+      })
+    } else {
+      wx.stopPullDownRefresh()
+    }
 
   },
 
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom: function () {
-
+  backToStart() {
+    wx.navigateBack({})
   },
 
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage: function () {
+  audioPlay: function (event) {
+    const soudUrl = event.detail
+    console.log(soudUrl)
+    if (!soudUrl) return
 
+    var tempSound = util.midstr(soudUrl)
+    console.log(tempSound)
+    wx.playBackgroundAudio({
+      dataUrl: tempSound,
+    })
+  },
+
+  //选项卡切换事件
+  clickTab: function (event) {
+    console.log(event)
+    const current = event.currentTarget.dataset.current
+    if (current == 0) {
+      this.setData({ review: this.data.release, curIndex: current })
+    } else {
+      this.setData({ review: this.data.collection, curIndex: current })
+    }
+  },
+
+  swiperTab: function (e) {
+    const current = e.detail.current
+    if (current == 0) {
+      this.setData({ review: this.data.release, curIndex: current })
+    } else {
+      this.setData({ review: this.data.collection, curIndex: current })
+    }
+  },
+
+  onItemClick: function (event) {
+    console.log(event)
+    const id = event.currentTarget.id
+    const openId = event.currentTarget.openId
+    //const openId = event.detail
+    
+    wx.navigateTo({
+      url: `/pages/review-detail/review-detail?id=${id}&openId=${openId}`,
+    })
   }
+
 })

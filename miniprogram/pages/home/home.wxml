@@ -9,10 +9,10 @@
       <image id="{{filmDetail._id}}"src="{{filmDetail.imageurl}}" mode="widthFix" bindtap="toDetail"></image>
       <view class="recommend_name">{{filmDetail.filmname}}</view>
 
-      <view wx:if="{{review.filmId}}">
-        <view class="recommend_user" id="{{review.filmId}}" bindtap="recommend" >
-          <image src="{{review.userAvatar}}"></image>
-          <view class="recommend_nickname">{{review.userName}}给你推荐了一部电影</view>
+      <view wx:if="{{review.id}}">
+        <view class="recommend_user" id="{{review._id}}" bindtap="toReviewDetail" >
+          <image src="{{review.user.avatarUrl}}"></image>
+          <view class="recommend_nickname">{{review.user.nickName}}给你推荐了一部电影</view>
         </view>
       </view>
       <view wx:else>

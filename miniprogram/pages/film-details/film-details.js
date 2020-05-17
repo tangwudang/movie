@@ -12,7 +12,7 @@ Page({
    * 页面的初始数据
    */
   data: {
-    id: null,
+    id: null, //filmid
     detail: null,
     button: button,
     user: null,
@@ -82,7 +82,7 @@ Page({
     }
     const id = this.data.id
     wx.navigateTo({
-      url: '/pages/check-review/check-review?id=' + id,
+      url: '/pages/review-list/review-list?id=' + id,
     })
 
   },
@@ -108,7 +108,7 @@ Page({
         }
 
         wx.navigateTo({
-          url: `/pages/review/review?id=${this.data.id}&tag=${tag}`,
+          url: `/pages/review-add/review-add?id=${this.data.id}&tag=${tag}`,
         })
       }
     })
@@ -126,7 +126,7 @@ Page({
     if (!this.data.review) return
 
     wx.navigateTo({
-      url: '/pages/recommend/recommend?id=' + this.data.review.id,
+      url: '/pages/review-detail/review-detail?id=' + this.data.review._id,
     })
   }
 

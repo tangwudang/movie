@@ -10,15 +10,7 @@ Page({
   data: {
     userInfo: null,
     filmDetail: null,
-    review: {
-      filmId: 'CNUBDYRr62L3dM7qODNckqI285ozalPFgyKBWSqyMhNiniRJ',
-      userId:'',
-      userName: 'jack',
-      userAvatar: '',
-      reviewText: '这是一部好电影',
-      soundUrl: '',
-      soundTime: ''
-    }
+    review: null
   },
 
   onTapLogin(event) {
@@ -67,6 +59,7 @@ Page({
     let filmid = this.data.filmDetail._id
     db.getRandomReview(filmid).then(result => {
       wx.hideLoading()
+      console.log(result)
       const reviewData = result.data[0]
 
       if (reviewData) {
@@ -91,6 +84,22 @@ Page({
     })
   },
 
-  
+  //电影详情 点击事件
+  toDetail: function (event) {
+    console.log(event)
+    const id = event.target.id //filmId
+    wx.navigateTo({
+      url: `/pages/film-details/film-details?id=${id}`,
+    })
+  },
+
+  //推荐跳转到影评详情，影评ID
+  toReviewDetail: function (event) {
+    console.log(event)
+    const id = event.currentTarget.id
+    wx.navigateTo({
+      url: `/pages/review-detail/review-detail?id=${id}&openId=${this.data.review.openId}`,
+    })
+  },
 
 })

@@ -1,0 +1,6 @@
+{
+  "usingComponents": {
+    "movie_detail": "/components/movie-detail/movie-detail"
+  },
+  "navigationBarTitleText": "编辑影评"
+}
