@@ -68,19 +68,15 @@ Page({
         wx.stopPullDownRefresh()
         const { data } = result
 
-        let collection = []
-        /**
-         * 区分发布影评与收藏影评
-         * 若userOpenId = OpenId, 则说明是用户发布的影评，反之是收藏的影评
-         */
-        data.map(it => {
-          if (it.userOpenId == it.openId) {
-            collection.push(it)
-          } 
-        })
+        // let collection = []
+        // data.map(it => {
+        //   if (it.userOpenId == it.openId) {
+        //     collection.push(it)
+        //   } 
+        // })
 
         this.setData({
-          collection
+          collection: data
         })
 
         if (this.data.curIndex == 0) {
@@ -139,7 +135,6 @@ Page({
     const id = event.currentTarget.id
     const openId = event.currentTarget.openId
     //const openId = event.detail
-    
     wx.navigateTo({
       url: `/pages/review-detail/review-detail?id=${id}&openId=${openId}`,
     })

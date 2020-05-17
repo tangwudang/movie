@@ -12,15 +12,18 @@
       </view>
     </view>
 
-    <block  wx:for="{{review}}" wx:key="_id">
+  <block wx:if="{{curIndex == 0}}">
+    <block  wx:for="{{release}}" wx:key="_id">
       <movie_item isReview="{{false}}" movie="{{item}}" id="{{item._id}}"  openId="{{item.userOpenId}}" isReview="{{false}}" defaultImage="/images/default.png"
                recordingTime="{{item.recordingTime}}" bindAudioPlay="audioPlay" bindOnItemClick="onItemClick"> </movie_item>
     </block>
-  <!-- </block> -->
-
-  <!-- <block wx:else>
-    <view>暂无收藏影评</view>
-  </block> -->
+  </block> 
+  <block wx:else>
+    <block  wx:for="{{collection}}" wx:key="_id">
+      <movie_item isReview="{{false}}" movie="{{item}}" id="{{item.reviewId}}"  openId="{{item.userOpenId}}" isReview="{{false}}" defaultImage="/images/default.png"
+               recordingTime="{{item.recordingTime}}" bindAudioPlay="audioPlay" bindOnItemClick="onItemClick"> </movie_item>
+    </block>
+  </block> 
 </view>
 
 <view class="back" bindtap="backToStart">回到首页</view>

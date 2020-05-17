@@ -13,11 +13,11 @@ exports.main = async (event, context) => {
   const openId = wxContext.OPENID
 
   const params = event.res
-  const userOpenId = event.userOpenId ? event.userOpenId : openId //true: 收藏的用户Openid, false: 自己的openId
+  //const userOpenId = event.userOpenId ? event.userOpenId : openId //true: 收藏的用户Openid, false: 自己的openId
 
   const collectionRes = await db.collection('collection').add({
     data: {
-      openId,
+      openId: params.openId,//发布者
       id: params.id,
       image: params.image,
       name: params.name,
@@ -25,7 +25,8 @@ exports.main = async (event, context) => {
       soudUrl: params.soudUrl,
       user: params.user,
       recordingTime: params.recordingTime,
-      userOpenId
+      reviewId: params._id,
+      collectorOpenId: openId//收藏者
     }
   })
 
