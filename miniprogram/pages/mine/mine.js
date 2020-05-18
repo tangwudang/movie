@@ -68,13 +68,6 @@ Page({
         wx.stopPullDownRefresh()
         const { data } = result
 
-        // let collection = []
-        // data.map(it => {
-        //   if (it.userOpenId == it.openId) {
-        //     collection.push(it)
-        //   } 
-        // })
-
         this.setData({
           collection: data
         })
@@ -134,7 +127,7 @@ Page({
     console.log(event)
     const id = event.currentTarget.id
     const openId = event.currentTarget.openId
-    //const openId = event.detail
+
     wx.navigateTo({
       url: `/pages/review-detail/review-detail?id=${id}&openId=${openId}`,
     })
